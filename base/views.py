@@ -58,6 +58,17 @@ class StudentRegistrationView(APIView):
 class StudentLoginView(APIView):
     permission_classes = [AllowAny]
 
+
+    """
+            curl --location '127.0.0.1:8000/api/student/login/' \
+        --header 'Content-Type: application/json' \
+        --header 'Cookie: csrftoken=Ile3EY4vpuowws32elmS71pUvTWKrGrM' \
+        --data-raw '{
+            "username":"admin",
+            "password":"sakib@123"
+        }'
+    """
+
     def post(self, request):
         print(request,"-----")
         data = request.data
@@ -150,6 +161,21 @@ class StudentProfileCreateView(APIView):
         profiles = Profile.objects.all()
         serializer = StudentProfileSerializer(profiles, many=True)
         return Response(serializer.data)
+    
+
+
+    """
+            curl --location 'http://127.0.0.1:8000/api/student/profile/' \
+        --header 'X-CSRFToken: fwjTQ5RL5TTdrdkaFLBejK944H8KS8w7d5aysWSsvws70Ci9WK7omtLLc3AuIhDy' \
+        --header 'Content-Type: application/json' \
+        --header 'Authorization: Bearer emzol3wcn631ylvdwccyeecf6nlmn7ty' \
+        --header 'Cookie: csrftoken=Ile3EY4vpuowws32elmS71pUvTWKrGrM' \
+        --data '{
+            "user": 2,
+            "bio": "This is a sample kjkbio",
+            "birth_date": "1990-01-01"
+        }'
+    """
 
     def post(self, request):
         serializer = StudentProfileSerializer(data=request.data, context={'request': request})
